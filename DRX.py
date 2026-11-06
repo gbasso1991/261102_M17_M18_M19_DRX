@@ -780,84 +780,90 @@ def analizar_pico(x, y, centro_ref, ventana=0.9, picos_detectados=None,
 
 #     return np.std(fwhm_corr, ddof=1)
 # #%% Gráficos de los ajustes del doblete
-fig_LaB6c, axs = plt.subplots(3, 4, figsize=(17, 10), constrained_layout=True)
-axs = axs.ravel()
+# fig_LaB6c, axs = plt.subplots(3, 4, figsize=(17, 10), constrained_layout=True)
+# axs = axs.ravel()
 
-for ax, (hkl, N, centro_ref) in zip(axs, reflexiones_LaB6):
-    if hkl not in ajustes_LaB6:
-        ax.set_visible(False)
-        continue
+# for ax, (hkl, N, centro_ref) in zip(axs, reflexiones_LaB6):
+#     if hkl not in ajustes_LaB6:
+#         ax.set_visible(False)
+#         continue
 
-    xp, yp, popt = ajustes_LaB6[hkl]
-    xfit = np.linspace(xp.min(), xp.max(), 1000)
-    yfit = doblete_pvoigt_fondo(xfit, *popt)
+#     xp, yp, popt = ajustes_LaB6[hkl]
+#     xfit = np.linspace(xp.min(), xp.max(), 1000)
+#     yfit = doblete_pvoigt_fondo(xfit, *popt)
 
-    ax.plot(xp, yp, '.', ms=2, color='0.35', label='Datos')
-    ax.plot(xfit, yfit, '-', lw=1.3, label='Ajuste doblete')
-    ax.axvline(popt[1], color='tab:red', ls='--', lw=0.8, label=r'$K\alpha_1$')
-    theta2 = np.arcsin(np.clip(lambda_Ka2/lambda_Ka1*np.sin(np.deg2rad(popt[1]/2)), -1, 1))
-    xc2 = np.rad2deg(2*theta2)
-    ax.axvline(xc2, color='tab:blue', ls=':', lw=0.8, label=r'$K\alpha_2$')
-    ax.set_title(hkl)
-    ax.set_xlabel(r'$2\theta$ (°)')
-    ax.grid(alpha=0.3)
+#     ax.plot(xp, yp, '.', ms=2, color='0.35', label='Datos')
+#     ax.plot(xfit, yfit, '-', lw=1.3, label='Ajuste doblete')
+#     ax.axvline(popt[1], color='tab:red', ls='--', lw=0.8, label=r'$K\alpha_1$')
+#     theta2 = np.arcsin(np.clip(lambda_Ka2/lambda_Ka1*np.sin(np.deg2rad(popt[1]/2)), -1, 1))
+#     xc2 = np.rad2deg(2*theta2)
+#     ax.axvline(xc2, color='tab:blue', ls=':', lw=0.8, label=r'$K\alpha_2$')
+#     ax.set_title(hkl)
+#     ax.set_xlabel(r'$2\theta$ (°)')
+#     ax.grid(alpha=0.3)
 
-axs[0].set_ylabel('Intensidad (u.a.)')
-axs[4].set_ylabel('Intensidad (u.a.)')
-axs[8].set_ylabel('Intensidad (u.a.)')
-axs[0].legend(fontsize=8)
-for ax in axs[len(reflexiones_LaB6):]:
-    ax.set_visible(False)
+# axs[0].set_ylabel('Intensidad (u.a.)')
+# axs[4].set_ylabel('Intensidad (u.a.)')
+# axs[8].set_ylabel('Intensidad (u.a.)')
+# axs[0].legend(fontsize=8)
+# for ax in axs[len(reflexiones_LaB6):]:
+#     ax.set_visible(False)
 
-plt.show()
+# plt.show()
 
-#% Perfil instrumental: FWHM de Kalpha1 en función de 2theta
-fig_Lab6_perfil, ax = plt.subplots(figsize=(8, 5), constrained_layout=True)
-ax.errorbar(
-    df_LaB6['2theta Ka1 (°)'],
-    df_LaB6['FWHM Ka1 (°)'],
-    yerr=df_LaB6['Error FWHM (°)'],
-    fmt='o', capsize=3, label=r'$K\alpha_1$'
-)
-ax.set_xlabel(r'$2\theta$ (°)')
-ax.set_ylabel('FWHM (°)')
-ax.set_title(r'Ancho del perfil de $K\alpha_1$ para LaB$_6$')
-ax.grid()
-ax.legend()
-ax.set_xlabel('2θ (°)')
-plt.show()
+# #% Perfil instrumental: FWHM de Kalpha1 en función de 2theta
+# fig_Lab6_perfil, ax = plt.subplots(figsize=(8, 5), constrained_layout=True)
+# ax.errorbar(
+#     df_LaB6['2theta Ka1 (°)'],
+#     df_LaB6['FWHM Ka1 (°)'],
+#     yerr=df_LaB6['Error FWHM (°)'],
+#     fmt='o', capsize=3, label=r'$K\alpha_1$'
+# )
+# ax.set_xlabel(r'$2\theta$ (°)')
+# ax.set_ylabel('FWHM (°)')
+# ax.set_title(r'Ancho del perfil de $K\alpha_1$ para LaB$_6$')
+# ax.grid()
+# ax.legend()
+# ax.set_xlabel('2θ (°)')
+# plt.show()
 
-#% Resumen del parámetro de red
-print(f'a promedio = {df_LaB6["a (Å)"].mean():.6f} Å')
-print(f'Desviación estándar entre reflexiones = {df_LaB6["a (Å)"].std(ddof=1):.6f} Å')
-print(f'Referencia NIST SRM 660c = {a_ref_LaB6:.6f} Å')
-print(f'Diferencia relativa = {(df_LaB6["a (Å)"].mean()/a_ref_LaB6-1)*100:.4f} %')
+# #% Resumen del parámetro de red
+# print(f'a promedio = {df_LaB6["a (Å)"].mean():.6f} Å')
+# print(f'Desviación estándar entre reflexiones = {df_LaB6["a (Å)"].std(ddof=1):.6f} Å')
+# print(f'Referencia NIST SRM 660c = {a_ref_LaB6:.6f} Å')
+# print(f'Diferencia relativa = {(df_LaB6["a (Å)"].mean()/a_ref_LaB6-1)*100:.4f} %')
 
 #%% Importo Data
-data_M17_raw = np.loadtxt('data/M17_crudo.txt', skiprows=1, delimiter='\t',
-                          converters={0: lambda x: float(x.replace(',', '.')),
-                                      1: lambda x: float(x.replace(',', '.'))})
+#%% Importo Data
+convertir_float = lambda x: float((x.decode('utf-8') if isinstance(x, bytes) else x).replace(',', '.'))
 
+data_M17_raw = np.loadtxt('data/M17_crudo.txt', skiprows=1, delimiter='\t',
+                          converters={0: convertir_float, 1: convertir_float}) 
 data_M18_raw = np.loadtxt('data/M18_crudo.txt', skiprows=1,delimiter='\t',
-                  converters={0: lambda x: float(x.replace(',', '.')),
-                                      1: lambda x: float(x.replace(',', '.'))})
+                  converters={0: convertir_float, 1: convertir_float})
 data_M19_raw = np.loadtxt('data/M19_crudo.txt', skiprows=1,delimiter='\t',
-                  converters={0: lambda x: float(x.replace(',', '.')),
-                                      1: lambda x: float(x.replace(',', '.'))})
+                  converters={0: convertir_float, 1: convertir_float})
+data_M20_raw = np.loadtxt('data/M20_crudo.txt', skiprows=1, delimiter='\t',
+                          converters={0: convertir_float, 1: convertir_float}) 
+data_M21_raw = np.loadtxt('data/M21_crudo.txt', skiprows=1,delimiter='\t',
+                  converters={0: convertir_float, 1: convertir_float})
+data_M22_raw = np.loadtxt('data/M22_crudo.txt', skiprows=1,delimiter='\t',
+                  converters={0: convertir_float, 1: convertir_float})
 
 data_M17_procesado1 = np.loadtxt('data/M17_procesado1.txt', skiprows=1,delimiter='\t',
-                  converters={0: lambda x: float(x.replace(',', '.')),
-                                      1: lambda x: float(x.replace(',', '.'))})
+                  converters={0: convertir_float, 1: convertir_float})
 data_M17_procesado2 = np.loadtxt('data/M17_procesado2.txt', skiprows=1,delimiter='\t',
-                  converters={0: lambda x: float(x.replace(',', '.')),
-                                      1: lambda x: float(x.replace(',', '.'))})
+                  converters={0: convertir_float, 1: convertir_float})
 data_M18_procesado = np.loadtxt('data/M18_procesado.txt', skiprows=1,delimiter='\t',
-                  converters={0: lambda x: float(x.replace(',', '.')),
-                                      1: lambda x: float(x.replace(',', '.'))})
+                  converters={0: convertir_float, 1: convertir_float})
 data_M19_procesado = np.loadtxt('data/M19_procesado.txt', skiprows=1,delimiter='\t',
-                  converters={0: lambda x: float(x.replace(',', '.')),
-                                      1: lambda x: float(x.replace(',', '.'))})
-
+                  converters={0: convertir_float, 1: convertir_float})
+data_M20_procesado = np.loadtxt('data/M20_procesado.txt', skiprows=1,delimiter='\t',
+                  converters={0: convertir_float, 1: convertir_float})
+data_M21_procesado = np.loadtxt('data/M21_procesado.txt', skiprows=1,delimiter='\t',
+                  converters={0: convertir_float, 1: convertir_float})
+data_M22_procesado = np.loadtxt('data/M22_procesado.txt', skiprows=1,delimiter='\t',
+                  converters={0: convertir_float, 1: convertir_float})
 #%% Parámetros para Análisis de Scherrer: pseudo-Voigt + fondo lineal
 K = 0.9
 lambda_X = 1.5406  # Å, Cu Kα
@@ -884,6 +890,15 @@ intensity_M18_raw = data_M18_raw[:, 1]
 dostheta_M19_raw = data_M19_raw[:, 0]
 intensity_M19_raw = data_M19_raw[:, 1]
 
+dostheta_M20_raw = data_M20_raw[:, 0]
+intensity_M20_raw = data_M20_raw[:, 1]
+
+dostheta_M21_raw = data_M21_raw[:, 0]
+intensity_M21_raw = data_M21_raw[:, 1]
+
+dostheta_M22_raw = data_M22_raw[:, 0]
+intensity_M22_raw = data_M22_raw[:, 1]
+
 dostheta_M17_procesado = data_M17_procesado1[:, 0]
 intensity_M17_procesado = data_M17_procesado1[:, 1]
 
@@ -896,7 +911,22 @@ intensity_M18_procesado = data_M18_procesado[:, 1]
 dostheta_M19_procesado = data_M19_procesado[:, 0]
 intensity_M19_procesado = data_M19_procesado[:, 1]
 
-labels=['M17 raw', 'M18 raw', 'M19 raw', 'M17 procesado', 'M17 procesado2', 'M18 procesado', 'M19 procesado']
+dostheta_M20_procesado = data_M20_procesado[:, 0]
+intensity_M20_procesado = data_M20_procesado[:, 1]
+
+dostheta_M21_procesado = data_M21_procesado[:, 0]
+intensity_M21_procesado = data_M21_procesado[:, 1]
+
+dostheta_M22_procesado = data_M22_procesado[:, 0]
+intensity_M22_procesado = data_M22_procesado[:, 1]
+
+
+
+
+
+
+labels=['M17 raw', 'M18 raw', 'M19 raw','M20 raw', 'M21 raw', 'M22 raw', 
+        'M17 procesado', 'M17 procesado2', 'M18 procesado', 'M19 procesado','M20 procesado', 'M21 procesado', 'M22 procesado']
 colors=['C0', 'C1', 'C2', 'C3', 'C4']
 #%% ploteo todos 
 fig_all,(ax,ax2)=plt.subplots(2,1,figsize=(11,8), constrained_layout=True,sharex=True)
@@ -904,12 +934,18 @@ ax.plot(dostheta_M17_raw, intensity_M17_raw/max(intensity_M17_raw)+0.0,lw=0.9, l
 ax.plot(dostheta_M18_raw, intensity_M18_raw/max(intensity_M18_raw)+0.2,lw=0.9, label=labels[1],zorder=2)
 ax.plot(dostheta_M19_raw, intensity_M19_raw/max(intensity_M19_raw)+0.4,lw=0.9, label=labels[2],zorder=3)    
 
+ax.plot(dostheta_M20_raw, intensity_M20_raw/max(intensity_M20_raw)+0.6,lw=0.9, label=labels[3],zorder=1)
+ax.plot(dostheta_M21_raw, intensity_M21_raw/max(intensity_M21_raw)+0.8,lw=0.9, label=labels[4],zorder=2)
+ax.plot(dostheta_M22_raw, intensity_M22_raw/max(intensity_M22_raw)+1.0,lw=0.9, label=labels[5],zorder=3)    
 
 ax2.plot(dostheta_M17_procesado, intensity_M17_procesado/max(intensity_M17_procesado)+0.0,lw=0.9, label=labels[3],zorder=1)
 ax2.plot(dostheta_M17_procesado2, intensity_M17_procesado2/max(intensity_M17_procesado2)+0.2,lw=0.9, label=labels[4],zorder=2)
 ax2.plot(dostheta_M18_procesado, intensity_M18_procesado/max(intensity_M18_procesado)+0.4,lw=0.9, label=labels[5],zorder=3)    
 ax2.plot(dostheta_M19_procesado, intensity_M19_procesado/max(intensity_M19_procesado)+0.6,lw=0.9, label=labels[6],zorder=1)
-# ax2.plot(dostheta_M6, intensity_M6/max(intensity_M6)+0.6,lw=0.9, label=labels[7],zorder=2)
+ax2.plot(dostheta_M20_procesado, intensity_M20_procesado/max(intensity_M20_procesado)+0.8,lw=0.9, label=labels[5],zorder=3)    
+ax2.plot(dostheta_M21_procesado, intensity_M21_procesado/max(intensity_M21_procesado)+1.0,lw=0.9, label=labels[6],zorder=1)    
+ax2.plot(dostheta_M22_procesado, intensity_M22_procesado/max(intensity_M22_procesado)+1.2,lw=0.9, label=labels[6],zorder=1)
+
 
 for hkl, posicion in reflexiones.items():
     ax.axvline(x=posicion, color='k', ls='--',alpha=0.8,lw=0.8)  
@@ -933,7 +969,11 @@ plt.show()
 datasets_raw = {
     'M17 raw': (dostheta_M17_raw, intensity_M17_raw),
     'M18 raw': (dostheta_M18_raw, intensity_M18_raw),
-    'M19 raw': (dostheta_M19_raw, intensity_M19_raw),}
+    'M19 raw': (dostheta_M19_raw, intensity_M19_raw),
+    'M20 raw': (dostheta_M20_raw, intensity_M20_raw),
+    'M21 raw': (dostheta_M21_raw, intensity_M21_raw),
+    'M22 raw': (dostheta_M22_raw, intensity_M22_raw),
+    }
 
 datasets_norm_raw = {}
 for nombre, (x, y) in datasets_raw.items():
@@ -945,7 +985,11 @@ datasets_procesado = {
 'M17 procesado': (dostheta_M17_procesado, intensity_M17_procesado),
     'M17 procesado2': (dostheta_M17_procesado2, intensity_M17_procesado2),
     'M18 procesado': (dostheta_M18_procesado, intensity_M18_procesado),
-    'M19 procesado': (dostheta_M19_procesado, intensity_M19_procesado)}
+    'M19 procesado': (dostheta_M19_procesado, intensity_M19_procesado),
+    'M20 procesado': (dostheta_M20_procesado, intensity_M20_procesado),
+    'M21 procesado': (dostheta_M21_procesado, intensity_M21_procesado),
+    'M22 procesado': (dostheta_M22_procesado, intensity_M22_procesado)}
+
 datasets_norm_procesado = {}
 for nombre, (x, y) in datasets_procesado.items():
     mask = (x >= 28) & (x <= 40)
@@ -954,17 +998,15 @@ for nombre, (x, y) in datasets_procesado.items():
 
 #%% Ploteo comparativo
 
-fig, (ax,ax2) = plt.subplots(2,1,figsize=(11, 6), constrained_layout=True,sharex=True
-                             )
+fig, (ax,ax2) = plt.subplots(2,1,figsize=(13, 7), constrained_layout=True,sharex=True)
 
 for i, (nombre, (x, y)) in enumerate(datasets_norm_raw.items()):
-    ax.plot(x, y + i*0.2,'.-', lw=1, label=nombre)
+    ax.plot(x, y + i*0.1,'.-', lw=1, label=nombre)
 
 for i, (nombre, (x, y)) in enumerate(datasets_norm_procesado.items()):
-    ax2.plot(x, y + i*0.2,'.-', lw=1, label=nombre)
+    ax2.plot(x, y + i*0.1,'.-', lw=1, label=nombre)
 
 ax.set_xlim(28, 40)
-ax.set_xlabel('2θ (°)')
 ax.set_ylabel('Intensidad normalizada (u.a.)')
 
 ax2.set_xlabel('2θ (°)')
@@ -972,7 +1014,7 @@ ax2.set_ylabel('Intensidad normalizada (u.a.)')
 
 for a in (ax, ax2):
     a.legend(loc='upper left', frameon=True, shadow=True)
-    a.grid(axis='x', alpha=0.3)
+    a.grid(axis='x')
 plt.show()
 #%%
 #%% Ajuste pseudo-Voigt de la reflexión (311) y cálculo de Scherrer
@@ -984,20 +1026,25 @@ datasets_raw = {
     'M17 raw': (dostheta_M17_raw, intensity_M17_raw),
     'M18 raw': (dostheta_M18_raw, intensity_M18_raw),
     'M19 raw': (dostheta_M19_raw, intensity_M19_raw),
+    'M20 raw': (dostheta_M20_raw, intensity_M20_raw),
+    'M21 raw': (dostheta_M21_raw, intensity_M21_raw),
+    'M22 raw': (dostheta_M22_raw, intensity_M22_raw),
     }
 resultados_311_raw = []
 ajustes_311_raw = {}
 
 datasets_procesado = {
 'M17 procesado': (dostheta_M17_procesado, intensity_M17_procesado),
-    'M17 procesado2': (dostheta_M17_procesado2, intensity_M17_procesado2),
     'M18 procesado': (dostheta_M18_procesado, intensity_M18_procesado),
-    'M19 procesado': (dostheta_M19_procesado, intensity_M19_procesado)}
+    'M19 procesado': (dostheta_M19_procesado, intensity_M19_procesado),
+    'M20 procesado': (dostheta_M20_procesado, intensity_M20_procesado),
+    'M21 procesado': (dostheta_M21_procesado, intensity_M21_procesado),
+    'M22 procesado': (dostheta_M22_procesado, intensity_M22_procesado)}
 
 resultados_311_procesado = []
 ajustes_311_procesado = {}
 
-fig_raw, axs = plt.subplots(1, 3, figsize=(15, 5), constrained_layout=True)
+fig_raw, axs = plt.subplots(2, 3, figsize=(15, 6), constrained_layout=True)
 axs = axs.ravel()
 
 for i, (nombre, (x, y)) in enumerate(datasets_raw.items()):
@@ -1052,8 +1099,8 @@ for i, (nombre, (x, y)) in enumerate(datasets_raw.items()):
         xfit = np.linspace(xp.min(), xp.max(), 500)
         yfit = pvoigt_fondo(xfit, *popt)
 
-        axs[i].plot(xp, yp, '.', ms=3, color='0.35', label='Datos')
-        axs[i].plot(xfit, yfit, '-', lw=1.4, color='C1', label='Pseudo-Voigt')
+        axs[i].plot(xp, yp, '.',  label='Datos')
+        axs[i].plot(xfit, yfit, '-', lw=1.4, color='C3', label='Pseudo-Voigt')
         axs[i].axvline(xc, color='C3', ls='--', lw=0.8)
 
         axs[i].set_title(
@@ -1064,7 +1111,7 @@ for i, (nombre, (x, y)) in enumerate(datasets_raw.items()):
         axs[i].grid(alpha=0.3)
 
         print(
-            f'{nombre}: D = {D:.2f} ± {err_D:.2f} nm'
+            f'{nombre}: D = {ufloat(D,err_D):.1uS} nm'
         )
 
     except (RuntimeError, ValueError) as e:
@@ -1078,9 +1125,9 @@ axs[0].legend(fontsize=8)
 plt.suptitle('Ajuste pseudo-Voigt de la reflexión (311) de magnetita')
 plt.show()
 
+#%%
 
-
-fig_procesado, axs = plt.subplots(1, 4, figsize=(20, 5), constrained_layout=True)
+fig_procesado, axs = plt.subplots(2, 3, figsize=(15, 6), constrained_layout=True)
 axs = axs.ravel()
 
 for i, (nombre, (x, y)) in enumerate(datasets_procesado.items()):
@@ -1135,8 +1182,8 @@ for i, (nombre, (x, y)) in enumerate(datasets_procesado.items()):
         xfit = np.linspace(xp.min(), xp.max(), 500)
         yfit = pvoigt_fondo(xfit, *popt)
 
-        axs[i].plot(xp, yp, '.', ms=3, color='0.35', label='Datos')
-        axs[i].plot(xfit, yfit, '-', lw=1.4, color='C1', label='Pseudo-Voigt')
+        axs[i].plot(xp, yp, '.', label='Datos')
+        axs[i].plot(xfit, yfit, '-', lw=1.4, color='C3', label='Pseudo-Voigt')
         axs[i].axvline(xc, color='C3', ls='--', lw=0.8)
 
         axs[i].set_title(
@@ -1147,7 +1194,7 @@ for i, (nombre, (x, y)) in enumerate(datasets_procesado.items()):
         axs[i].grid(alpha=0.3)
 
         print(
-            f'{nombre}: D = {D:.2f} ± {err_D:.2f} nm'
+            f'{nombre}: D = {ufloat(D,err_D):.1uS}  nm'
         )
 
     except (RuntimeError, ValueError) as e:
@@ -1168,7 +1215,6 @@ display(tabla_311.round(5))
 
 tabla_311_procesado = pd.DataFrame(resultados_311_procesado)
 display(tabla_311_procesado.round(5))
-#%% Salvo figuras
 
 #%% Salvo figuras
 
